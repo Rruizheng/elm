@@ -1,12 +1,12 @@
 <template>
   <div class="star" :class="starType">
-    <span v-for="itemClass in itemClasses" :class="itemClass"></span>
+    <span v-for="itemClass in itemClasses" :class="itemClass" class="star-item" :key="itemClass.id"></span>
      <!-- <span v-for="itemClass in itemClasses" :class="itemClass" class="star-item" track-by="$index"></span> -->
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  // 定义常亮
+  // 定义常量，以后改变就可以只改一处
   const LENGTH = 5;
   const CLS_ON = 'on';
   const CLS_HALF = 'half';
@@ -28,16 +28,22 @@
         return 'star-' + this.size;
       },
       itemClasses() {
+        // itemClasses数组
         let result = [];
         let score = Math.floor(this.score * 2) / 2;
+        // 小数部分
         let hasDecimal = score % 1 !== 0;
+        // 整数部分，全星的个数
         let integer = Math.floor(score);
+
         for (let i = 0; i < integer; i++) {
           result.push(CLS_ON);
         }
+        // 放入一个半星星
         if (hasDecimal) {
           result.push(CLS_HALF);
         }
+        // 补上没有星星
         while (result.length < LENGTH) {
           result.push(CLS_OFF);
         }
